@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Spam Detector AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container fade-in">
+    <h1>🤖 Spam Detector AI</h1>
+    <p class="subtitle">
+        Deteksi email spam secara instan menggunakan Machine Learning
+    </p>
+
+    <form method="POST" onsubmit="showLoading()">
+        <textarea 
+            name="message" 
+            placeholder="Tulis isi email di sini..."
+            required>{{ message }}</textarea>
+
+        <button type="submit">🔍 Deteksi Sekarang</button>
+        <button type="button" class="reset" onclick="clearForm()">🧹 Clear</button>
+    </form>
+
+    <!-- LOADING -->
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>AI sedang menganalisis...</p>
+    </div>
+
+    {% if prediction %}
+    <div class="result {{ 'spam' if prediction == 'Spam' else 'ham' }} slide-up">
+        <h2>{{ prediction }}</h2>
+        <p>Probabilitas Spam: <b>{{ probability }}%</b></p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function showLoading() {
+    document.getElementById("loading").classList.remove("hidden");
+}
+
+function clearForm() {
+    document.querySelector("textarea").value = "";
+    document.querySelector(".result")?.remove();
+}
+</script>
+
+</body>
+</html>
